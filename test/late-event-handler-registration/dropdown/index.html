@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+</head>
+<body>
+    <h3>Late-Event-Handler-Registration Bugs</h3>
+    
+    <h4>Harmless races</h4>
+
+    <p>The user may in principle click on the following anchor before the event handler registration, but this interleaving is extremely unlikely.</p>
+
+    <a href="http://www.google.com/" id="my-anchor-1">Dropdown</a>
+    <script>
+        var anchor1 = document.getElementById('my-anchor-1');
+        anchor1.addEventListener('click', function (e) {
+            e.preventDefault();
+        }, false);
+    </script>
+    
+    <h4>Harmful races</h4>
+
+    <p>The race on the following anchor should be marked as harmful, because the event handler directly calls <code>preventDefault()</code>.</p>
+
+    <a href="http://www.google.com/" id="my-anchor-2">Dropdown</a>
+    <script src="register-anchor-2.js"></script>
+
+    <p>The race on the following anchor should be marked as harmful, because the event handler indirectly calls <code>preventDefault()</code>.</p>
+
+    <a href="http://www.google.com/" id="my-anchor-3">Dropdown</a>
+    <script src="register-anchor-3.js"></script>
+
+    <p>The race on the following anchor should be marked as harmful, because the event handler indirectly calls <code>preventDefault()</code>. InitRacer only looks for calls to <code>preventDefault()</code> in functions that are called directly by the registered event handler, and hence misses that <code>preventDefault()</code> is in fact called.</p>
+
+    <a href="http://www.google.com/" id="my-anchor-4">Dropdown</a>
+    <script src="register-anchor-4.js"></script>
+
+
+</body>
+</html>

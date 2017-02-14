@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+</head>
+<body>
+    <h3>Late-Event-Handler-Registration Bugs</h3>
+    
+    <h4>Harmful races</h4>
+
+    <p>The race on the following anchor should be marked as harmful, because the event handler directly calls <code>preventDefault()</code>, meanwhile the event handler registration does not happen until <code>external.js</code> has been executed.</p>
+
+    <a href="http://www.google.com/" id="my-anchor-1">Dropdown</a>
+    <script src="external.js"></script>
+    <script>
+    	var anchor1 = document.getElementById('my-anchor-1');
+    	anchor1.addEventListener('click', function (e) {
+    		e.preventDefault();
+    	}, false);
+    </script>
+</body>
+</html>

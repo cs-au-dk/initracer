@@ -1,0 +1,102 @@
+<h3>{{site.name}} (<a href="#/">back to summary</a>)</h3>
+
+<button type="button" class="btn" style="height: 50px; width: 75px" ng-click="$location.path($routeParams.siteId)">
+    Info
+</button>
+<button type="button" class="btn" style="height: 50px; width: 250px" ng-click="$location.path($routeParams.siteId + '/access-before-definition')" ng-class="{ 'btn-danger': site.accessBeforeDefinitionRaces.length, 'btn-success': !site.accessBeforeDefinitionRaces.length }">
+    Access-Before-Definition Warnings
+</button>
+<button type="button" class="btn" style="height: 50px; width: 300px" ng-click="$location.path($routeParams.siteId + '/late-event-handler-registration')" ng-class="{ 'btn-danger': (summary.lateEventHandlerRegistrationRaces.user.harmful + summary.lateEventHandlerRegistrationRaces.system.harmful), 'btn-success': !(summary.lateEventHandlerRegistrationRaces.user.harmful + summary.lateEventHandlerRegistrationRaces.system.harmful) }">
+    Late-Event-Handler-Registration Warnings
+</button>
+<button type="button" class="btn" style="height: 50px; width: 250px" ng-click="$location.path($routeParams.siteId + '/form-input-overwritten')" ng-class="{ 'btn-danger': summary.formInputOverwrittenRaces.writes.harmful + summary.formInputOverwrittenRaces.blurs.harmful, 'btn-success': !(summary.formInputOverwrittenRaces.writes.harmful + summary.formInputOverwrittenRaces.blurs.harmful) }">
+    Form-Input-Overwritten Warnings
+</button>
+
+<div style="margin: 2em 0 0 2em">
+    <div>
+        <h4>Access-Before-Definition Bugs</h4>
+        <p>
+            Showing {{getNumberOfGroupsInTable('access-before-definition-table')}} out of {{site.accessBeforeDefinitionRaces.length}} warnings
+            (<a href ng-click="setFilters(false)">show all</a>, <a href ng-click="setFilters(true)">enable filters</a>)
+        </p>
+        <table id="access-before-definition-table" class="table table-condensed table-hover table-striped" style="width: auto" ng-if="site.accessBeforeDefinitionRaces.length">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Event</th>
+                    <th>Kind</th>
+                    <th style="white-space: nowrap">Validated</th>
+                    <th style="white-space: nowrap">Initialization error</th>
+                    <th>Expression</th>
+                    <th style="white-space: nowrap">Event listener</th>
+                    <th>Error</th>
+                    <th style="white-space: nowrap">Stack trace</th>
+                    <th style="white-space: nowrap">Image</th>
+                    <th style="width: 100%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="report in site.accessBeforeDefinitionRaces | filter: isReportSelected">
+                    <td style="vertical-align: middle; white-space: nowrap">
+                        {{report.id}}
+                    </td>
+                    <td style="vertical-align: middle; white-space: nowrap">
+                        {{report.name}}
+                        <span ng-if="report.isTargetStaticElement">
+                            ({{report.location.line}}:{{report.location.col}})
+                        </span>
+                    </td>
+                    <td style="vertical-align: middle; white-space: nowrap">
+                        {{report.type}}
+                    </td>
+                    <td style="vertical-align: middle; white-space: nowrap">
+                        {{report.kind}}
+                    </td>
+                    <td style="vertical-align: middle; white-space: nowrap">
+                        <span ng-if="report.isDepthOneValidated && report.isDepthOneError">Yes</span>
+                        <span ng-if="report.isDepthOneValidated && !report.isDepthOneError">No</span>
+                        <span ng-if="!report.isDepthOneValidated">N/A</span>
+                    </td>
+                    <td style="vertical-align: middle; white-space: nowrap">
+                        <span ng-if="report.isInitializationErrorValidated && report.isInitializationError">Yes</span>
+                        <span ng-if="report.isInitializationErrorValidated && !report.isInitializationError">No</span>
+                        <span ng-if="!report.isInitializationErrorValidated">N/A</span>
+                    </td>
+                    <td style="white-space: nowrap">
+                        <div ng-repeat="access in report.accesses | filter: isAccessSelected" ng-if="report.accesses.length">
+                            <code>{{access.source}}</code>
+                        </div>
+                        <div ng-if="!report.accesses.length">
+                            N/A
+                        </div>
+                    </td>
+                    <td style="vertical-align: middle; white-space: nowrap">
+                        <a href tooltips tooltip-side="below" tooltip-template="{{report.listener.code}}">(hover)</a>
+                    </td>
+                    <td style="vertical-align: middle; white-space: nowrap">
+                        <a href tooltips tooltip-side="below" tooltip-template="{{report.thrownError}}">(hover)</a>
+                    </td>
+                    <td style="vertical-align: middle; white-space: nowrap">
+                        <a href tooltips tooltip-side="below" tooltip-template="{{report.stackTrace.filter(notInitRacerLocation).join('\n')}}">(hover)</a>
+                    </td>
+                    <td>
+                        <div style="position: relative; overflow: hidden" ng-if="report.layout" ng-style="{
+                            height: (report.layout.size.height + 20 > 50 ? 50 : report.layout.size.height + 20) + 'px',
+                            width: (report.layout.size.width + 20 > 250 ? 250 : report.layout.size.width + 20) + 'px',
+                        }">
+                            <img ng-src="{{'../out/' + $routeParams.siteId + '/screenshot.png'}}" ng-style="{
+                                'margin-left': -(report.layout.offset.left - 10) + 'px',
+                                'margin-top': -(report.layout.offset.top - 10) + 'px'
+                            }" />
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <img ng-src="{{'../out/' + $routeParams.siteId + '/screenshot.png'}}" style="max-width: 95%" />
+</div>

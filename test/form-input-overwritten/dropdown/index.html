@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+    <title>Example</title>
+</head>
+<body>
+    <h3>Form-Input-Overwritten Bugs</h3>
+    
+    <h4>Harmless races</h4>
+
+    <p>The selected item of the following dropdown is updated <i>immediately</i>.</p>
+
+    <select id="my-select-1">
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
+    </select>
+    <script>
+        var select1 = document.getElementById('my-select-1');
+        select1.selectedIndex = -1;
+    </script>
+
+    <p>The selected item of the following dropdown is only updated if the user has not already changed it.</p>
+
+    <select id="my-select-2">
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
+    </select>
+    <script>
+        var select2 = document.getElementById('my-select-2');
+        if (select2.selectedIndex === 0) {
+            select2.selectedIndex = -1;
+        }
+    </script>
+
+    <h4>Harmful races</h4>
+
+    <p>The selected item of the following dropdown is updated unconditionally and in an external script.</p>
+
+    <select id="my-select-3">
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
+    </select>
+    <script src="update-select-3.js"></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<h3>InitRacer Summary</h3>
+
+<button type="button" class="btn" style="height: 50px; width: 250px" ng-click="$location.path('access-before-definition')">
+    Access-Before-Definition Warnings
+</button>
+<button type="button" class="btn" style="height: 50px; width: 300px" ng-click="$location.path('late-event-handler-registration')">
+    Late-Event-Handler-Registration Warnings
+</button>
+<button type="button" class="btn" style="height: 50px; width: 280px" ng-click="$location.path('form-input-overwritten')">
+    Form-Input-Overwritten Warnings
+</button>
+<button type="button" class="btn" style="height: 50px; width: 250px" ng-click="$location.path('performance')">
+    Performance
+</button>
+
+<div style="margin: 2em 0 0 2em">
+    <h4>Form-Input-Overwritten Warnings</h4>
+    <table class="table table-condensed table-hover table-striped" style="width: auto">
+        <thead>
+            <tr>
+                <th rowspan="2">Website</th>
+                <th colspan="6">Writes to form fields</th>
+                <th colspan="6">Form field focus removal</th>
+                <th rowspan="2" style="width: 100%"></th>
+            </tr>
+            <tr>
+                <!-- Writes -->
+                <th style="white-space: nowrap">Total writes</th>
+                <th>Validated <span style="white-space: nowrap">harmful writes</span>
+                </th>
+                <th style="white-space: nowrap">Static target</th>
+                <th>Visible <span style="white-space: nowrap">static target</span></th>
+                <th><span style="white-space: nowrap">Visible, writable</span> static target</th>
+                <th><strong><span style="white-space: nowrap">Visible, writable static target</span> + Long delay</strong></th>
+
+                <!-- Focus removal -->
+                <th style="white-space: nowrap">Total focuses</th>
+                <th style="white-space: nowrap">Total blurs</th>
+                <th style="white-space: nowrap">Static target</th>
+                <th>Visible <span style="white-space: nowrap">static target</span></th>
+                <th><span style="white-space: nowrap">Visible, writable</span> static target</th>
+                <th><span style="white-space: nowrap">Visible, writable static target</span> + Long delay</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="site in sites | orderBy:'name'">
+                <td style="white-space: nowrap">
+                    <strong>
+                        <a href="#/{{site.name}}/">{{site.name}}</a>
+                    </strong>
+                </td>
+                <td class="bl">{{site.formInputOverwrittenRaces.writes.total}}</td>
+                <td>{{site.formInputOverwrittenRaces.writes.validated}}</td>
+                <td>{{site.formInputOverwrittenRaces.writes.staticTarget}}</td>
+                <td>{{site.formInputOverwrittenRaces.writes.visibleStaticTarget}}</td>
+                <td>{{site.formInputOverwrittenRaces.writes.visibleWritableStaticTarget}}</td>
+                <td>{{site.formInputOverwrittenRaces.writes.visibleWritableStaticTargetWithLongDelay}}</td>
+                <td class="bl">{{site.formInputOverwrittenRaces.blurs.focuses}}</td>
+                <td>
+                    {{site.formInputOverwrittenRaces.blurs.total}}
+                    <span ng-if="site.formInputOverwrittenRaces.blurs.totalHtml > 0">
+                        (html: {{site.formInputOverwrittenRaces.blurs.totalHtml}})
+                    </span>
+                </td>
+                <td>{{site.formInputOverwrittenRaces.blurs.staticTarget}}</td>
+                <td>{{site.formInputOverwrittenRaces.blurs.visibleStaticTarget}}</td>
+                <td>{{site.formInputOverwrittenRaces.blurs.visibleWritableStaticTarget}}</td>
+                <td><strong>{{site.formInputOverwrittenRaces.blurs.visibleWritableStaticTargetWithLongDelay}}</strong></td>
+                <td class="bl"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Total</th>
+                <th class="bl">{{sites | sumOfValue: ['formInputOverwrittenRaces', 'writes', 'total']}}</th>
+                <th>{{sites | sumOfValue: ['formInputOverwrittenRaces', 'writes', 'validated']}}</th>
+                <th>{{sites | sumOfValue: ['formInputOverwrittenRaces', 'writes', 'staticTarget']}}</th>
+                <th>{{sites | sumOfValue: ['formInputOverwrittenRaces', 'writes', 'visibleStaticTarget']}}</th>
+                <th>{{sites | sumOfValue: ['formInputOverwrittenRaces', 'writes', 'visibleWritableStaticTarget']}}</th>
+                <th>{{sites | sumOfValue: ['formInputOverwrittenRaces', 'writes', 'visibleWritableStaticTargetWithLongDelay']}}</th>
+                <th class="bl">{{sites | sumOfValue: ['formInputOverwrittenRaces', 'blurs', 'focuses']}}</th>
+                <th>{{sites | sumOfValue: ['formInputOverwrittenRaces', 'blurs', 'total']}}</th>
+                <th>{{sites | sumOfValue: ['formInputOverwrittenRaces', 'blurs', 'staticTarget']}}</th>
+                <th>{{sites | sumOfValue: ['formInputOverwrittenRaces', 'blurs', 'visibleStaticTarget']}}</th>
+                <th>{{sites | sumOfValue: ['formInputOverwrittenRaces', 'blurs', 'visibleWritableStaticTarget']}}</th>
+                <th>{{sites | sumOfValue: ['formInputOverwrittenRaces', 'blurs', 'visibleWritableStaticTargetWithLongDelay']}}</th>
+                <th class="bl"></th>
+            </tr>
+        </tfoot>
+    </table>
+</div>

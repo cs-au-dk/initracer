@@ -1,0 +1,86 @@
+<h3>{{site.name}} (<a href="#/">back to summary</a>)</h3>
+
+<button type="button" class="btn" style="height: 50px; width: 75px" ng-click="$location.path($routeParams.siteId)">
+    Info
+</button>
+<button type="button" class="btn" style="height: 50px; width: 250px" ng-click="$location.path($routeParams.siteId + '/access-before-definition')" ng-class="{ 'btn-danger': site.accessBeforeDefinitionRaces.length, 'btn-success': !site.accessBeforeDefinitionRaces.length }">
+    Access-Before-Definition Warnings
+</button>
+<button type="button" class="btn" style="height: 50px; width: 300px" ng-click="$location.path($routeParams.siteId + '/late-event-handler-registration')" ng-class="{ 'btn-danger': (summary.lateEventHandlerRegistrationRaces.user.harmful + summary.lateEventHandlerRegistrationRaces.system.harmful), 'btn-success': !(summary.lateEventHandlerRegistrationRaces.user.harmful + summary.lateEventHandlerRegistrationRaces.system.harmful) }">
+    Late-Event-Handler-Registration Warnings
+</button>
+<button type="button" class="btn" style="height: 50px; width: 250px" ng-click="$location.path($routeParams.siteId + '/form-input-overwritten')" ng-class="{ 'btn-danger': summary.formInputOverwrittenRaces.writes.harmful + summary.formInputOverwrittenRaces.blurs.harmful, 'btn-success': !(summary.formInputOverwrittenRaces.writes.harmful + summary.formInputOverwrittenRaces.blurs.harmful) }">
+    Form-Input-Overwritten Warnings
+</button>
+
+<div style="margin: 2em 0 0 2em">
+    <h4>Info</h4>
+    <table class="table table-condensed table-hover table-striped" style="width: auto">
+        <thead>
+            <tr>
+                <th>Metric</th>
+                <th style="width: 100%">Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="white-space: nowrap">
+                    Statically registered event handlers (HTML)
+                </td>
+                <td>{{site.info.eventHandlerRegistrations.html}}</td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap">
+                    Dynamically registered event handlers (JavaScript)
+                </td>
+                <td>{{site.info.eventHandlerRegistrations.js}}</td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap">
+                    Total registered event handlers (HTML + JavaScript)
+                </td>
+                <td>{{site.info.eventHandlerRegistrations.total}}</td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap">
+                    Timing (observation)
+                </td>
+                <td>{{site.info.timing.observation}}</td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap">
+                    Timing (adverse)
+                </td>
+                <td>{{site.info.timing.adverse}}</td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap">
+                    Timing (validation)
+                </td>
+                <td>{{site.info.timing.validation}}</td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap">
+                    Executed event handlers
+                </td>
+                <td>{{site.info.numInvokedEventHandlers}} (failing: {{site.info.numFailingEventHandlers}}, skipped: {{site.info.numSkippedEventHandlers}})</td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap">
+                    Uncaught exceptions (observation)
+                </td>
+                <td>{{site.info.uncaughtExceptions.observation.length}}</td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap">
+                    Uncaught exceptions (adverse)
+                </td>
+                <td>{{site.info.uncaughtExceptions.adverse.length}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div ng-repeat="screenshot in site.screenshots">
+        <img ng-src="{{'../out/' + $routeParams.siteId + '/screenshot.png'}}" style="max-width: 95%" />
+    </div>
+</div>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+</head>
+<body>
+    <h3>Access-Before-Definition Bugs</h3>
+    
+    <h4>Harmless races</h4>
+
+    <p>The user may in principle click on the following anchor before the definition occurs, but this interleaving is extremely unlikely.</p>
+
+    <a href="http://www.google.com/" id="my-anchor-1">Dropdown</a>
+    <script>
+        var f1 = null;
+        var o = {};
+
+        var anchor1 = document.getElementById('my-anchor-1');
+        anchor1.addEventListener('click', function (e) {
+            f1();
+        }, false);
+    </script>
+    <script>
+        function f1() {}
+    </script>
+
+    <p>The race on the following anchor should be ignored, because the error-prone expression is present in a branch test.</p>
+
+    <a href="http://www.google.com/" id="my-anchor-1b">Dropdown</a>
+    <script src="register-anchor-1b.js"></script>
+
+    <p>The race on the following anchor should be ignored, because the element is not visible.</p>
+
+    <a href="http://www.google.com/" id="my-anchor-1c" style="visibility: hidden">Dropdown</a>
+    <script src="register-anchor-1c.js"></script>
+
+    <p>The race on the following anchor should be ignored, because the error-prone expression is assigned in advance.</p>
+
+    <a href="http://www.google.com/" id="my-anchor-1d">Dropdown</a>
+    <script src="register-anchor-1d.js"></script>
+
+    <p>The race on the following anchor should be ignored, because the error-prone expression is assigned in advance.</p>
+
+    <a href="http://www.google.com/" id="my-anchor-1e">Dropdown</a>
+    <script src="register-anchor-1e.js"></script>
+
+    <p>The race on the following anchor should be ignored, because the error-prone expression is not executed.</p>
+
+    <a href="http://www.google.com/" id="my-anchor-1f">Dropdown</a>
+    <script src="register-anchor-1f.js"></script>
+    
+    <h4>Harmful races</h4>
+
+    <p>The race on the following anchor should be marked as harmful, because the event handler directly calls a function that is not yet defined.</p>
+
+    <a href="http://www.google.com/" id="my-anchor-2">Dropdown</a>
+    <script src="register-anchor-2.js"></script>
+
+    <p>The race on the following anchor should be marked as harmful, because the event handler directly dereferences a property on an object that is not yet defined.</p>
+
+    <a href="http://www.google.com/" id="my-anchor-2b">Dropdown</a>
+    <script src="register-anchor-2b.js"></script>
+
+    <p>The race on the following anchor should be marked as harmful, because the event handler directly calls a function that is not yet defined.</p>
+
+    <a href="http://www.google.com/" id="my-anchor-2c">Dropdown</a>
+    <script src="register-anchor-2c.js"></script>
+
+    <p>The race on the following anchor should be marked as harmful, because the event handler indirectly calls a function that is not yet defined.</p>
+
+    <a href="http://www.google.com/" id="my-anchor-3">Dropdown</a>
+    <script src="register-anchor-3.js"></script>
+
+    <p>The race on the following anchor should be marked as harmful, because the event handler indirectly calls a function that is not yet defined. InitRacer only looks for such errors in functions that are called directly by the registered event handler, and hence misses this error.</p>
+
+    <a href="http://www.google.com/" id="my-anchor-4">Dropdown</a>
+    <script src="register-anchor-4.js"></script>
+
+    <script>
+        var o2 = { f: null };
+        o.f2 = function () {};
+        function f3() {}
+        function f4() {}
+    </script>
+</body>
+</html>

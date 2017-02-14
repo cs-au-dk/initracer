@@ -1,0 +1,43 @@
+<!doctype>
+<html ng-app="reportApp">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Report</title>
+
+        <!-- jQuery -->
+        <script src="jquery.min.js"></script>
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+        <script src="bootstrap/bootstrap.min.js"></script>
+
+        <!-- Angular -->
+        <script src="angular/angular.min.js"></script>
+        <script src="angular/angular-resource.min.js"></script>
+        <script src="angular/angular-route.min.js"></script>
+        <script src="angular/angular-duration-format.js"></script>
+
+        <!-- Tooltips -->
+        <link rel="stylesheet" href="angular/angular-tooltips.min.css">
+        <script src="angular/angular-tooltips.min.js"></script>
+
+        <!-- App -->
+        <script src="report.js"></script>
+
+        <!-- Styling -->
+        <style>
+            .bl { border-left: 2px dotted lightgray; }
+            table { font-size: small; }
+            .centered { text-align: center; }
+            tooltip tip { text-align: left !important; width: 500px; }
+            tooltip tip tip-tip { white-space: pre-wrap; }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div ng-view></div>
+        </div>
+    </body>
+</html>

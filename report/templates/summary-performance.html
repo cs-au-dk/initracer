@@ -1,0 +1,58 @@
+<h3>InitRacer Summary</h3>
+
+<button type="button" class="btn" style="height: 50px; width: 250px" ng-click="$location.path('access-before-definition')">
+    Access-Before-Definition Warnings
+</button>
+<button type="button" class="btn" style="height: 50px; width: 300px" ng-click="$location.path('late-event-handler-registration')">
+    Late-Event-Handler-Registration Warnings
+</button>
+<button type="button" class="btn" style="height: 50px; width: 280px" ng-click="$location.path('form-input-overwritten')">
+    Form-Input-Overwritten Warnings
+</button>
+<button type="button" class="btn" style="height: 50px; width: 250px" ng-click="$location.path('performance')">
+    Performance
+</button>
+
+<div style="margin: 2em 0 0 2em">
+    <h4>Performance</h4>
+    <table class="table table-condensed table-hover table-striped" style="width: auto">
+        <thead>
+            <tr>
+                <th>Website</th>
+                <th style="white-space: nowrap">Observation mode (ms)</th>
+                <th style="white-space: nowrap">Adverse mode (ms)</th>
+                <th style="white-space: nowrap">Validation mode (ms)</th>
+                <th style="width: 100%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="site in sites | orderBy:'name'">
+                <td style="white-space: nowrap">
+                    <strong>
+                        <a href="#/{{site.name}}/">{{site.name}}</a>
+                    </strong>
+                </td>
+                <td class="bl">{{site.info.timing.observation | duration: 'hh:mm:ss'}}</td>
+                <td>{{site.info.timing.adverse | duration: 'hh:mm:ss'}}</td>
+                <td>{{site.info.timing.validation | duration: 'hh:mm:ss'}}</td>
+                <td class="bl"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Average</th>
+                <th class="bl">{{ (sites | sumOfValue: { path: ['info', 'timing', 'observation'], average: true, round: true }) | duration: 'hh:mm:ss' }}</th>
+                <th>{{ (sites | sumOfValue: { path: ['info', 'timing', 'adverse'], average: true, round: true }) | duration: 'hh:mm:ss' }}</th>
+                <th>{{ (sites | sumOfValue: { path: ['info', 'timing', 'validation'], average: true, excludeEmpty: true, round: true }) | duration: 'hh:mm:ss' }}</th>
+                <th class="bl"></th>
+            </tr>
+            <tr>
+                <th>Max</th>
+                <th class="bl">{{ (sites | sumOfValue: { path: ['info', 'timing', 'observation'], computation: 'max' }) | duration: 'hh:mm:ss' }}</th>
+                <th>{{ (sites | sumOfValue: { path: ['info', 'timing', 'adverse'], computation: 'max' }) | duration: 'hh:mm:ss' }}</th>
+                <th>{{ (sites | sumOfValue: { path: ['info', 'timing', 'validation'], computation: 'max' }) | duration: 'hh:mm:ss' }}</th>
+                <th class="bl"></th>
+            </tr>
+        </tfoot>
+    </table>
+</div>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+    <title>Example</title>
+</head>
+<body>
+    <h3>Form-Input-Overwritten Bugs</h3>
+    
+    <h4>Harmless races</h4>
+
+    <p>The value of the following text field is updated <i>immediately</i>.</p>
+
+    <input type="text" id="my-input-1" />
+    <script>
+        var input1 = document.getElementById('my-input-1');
+        input1.value = "Enter search terms...";
+    </script>
+
+    <p>The value of the following text field is only updated if the user has not already started typing.</p>
+
+    <input type="text" id="my-input-2" />
+    <script src="update-input-2.js"></script>
+
+    <p>The following text field is read-only, and hence the user cannot update its value.</p>
+
+    <input type="text" id="my-input-3" readonly />
+    <script src="update-input-3.js"></script>
+
+    <p>The following text field is disabled, and hence the user cannot update its value.</p>
+
+    <input type="text" id="my-input-4" disabled />
+    <script src="update-input-4.js"></script>
+
+    <h4>Harmful races</h4>
+
+    <p>The value of the following text field is updated unconditionally and in an external script.</p>
+
+    <input type="text" id="my-input-5" />
+    <script src="update-input-5.js"></script>
+</body>
+</html>

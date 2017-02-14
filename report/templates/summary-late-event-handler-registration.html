@@ -1,0 +1,80 @@
+<h3>InitRacer Summary</h3>
+
+<button type="button" class="btn" style="height: 50px; width: 250px" ng-click="$location.path('access-before-definition')">
+    Access-Before-Definition Warnings
+</button>
+<button type="button" class="btn" style="height: 50px; width: 300px" ng-click="$location.path('late-event-handler-registration')">
+    Late-Event-Handler-Registration Warnings
+</button>
+<button type="button" class="btn" style="height: 50px; width: 280px" ng-click="$location.path('form-input-overwritten')">
+    Form-Input-Overwritten Warnings
+</button>
+<button type="button" class="btn" style="height: 50px; width: 250px" ng-click="$location.path('performance')">
+    Performance
+</button>
+
+
+<div style="margin: 2em 0 0 2em">
+    <h4>Late-Event-Handler-Registration Warnings</h4>
+    <table class="table table-condensed table-hover table-striped" style="width: auto">
+        <thead>
+            <tr>
+                <th rowspan="2">Website</th>
+                <th colspan="6">Late user event handler registration</th>
+                <th colspan="4">Late system event handler registration</th>
+                <th rowspan="2" style="width: 100%"></th>
+            </tr>
+            <tr>
+                <!-- Late user event handler registration -->
+                <th>Total</th>
+                <th style="white-space: nowrap">Static target</th>
+                <th>Visible <span style="white-space: nowrap">static target</span></th>
+                <th><span style="white-space: nowrap">Visible static target</span> + Long delay</th>
+                <th><span style="white-space: nowrap">Visible static target</span> + Prevent default</th>
+                <th><span style="white-space: nowrap">Visible static target</span> <span style="white-space: nowrap">+ Prevent default</span> <span style="white-space: nowrap">+ Long delay</span></th>
+
+                <!-- Late system event handler registration -->
+                <th>Total</th>
+                <th style="white-space: nowrap">Element target</th>
+                <th><span style="white-space: nowrap">Static element target</span></th>
+                <th><span style="white-space: nowrap">Static element target</span> + Long delay</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="site in sites | orderBy:'name'">
+                <td style="white-space: nowrap">
+                    <strong>
+                        <a href="#/{{site.name}}/">{{site.name}}</a>
+                    </strong>
+                </td>
+                <td class="bl">{{site.lateEventHandlerRegistrationRaces.user.total}}</td>
+                <td>{{site.lateEventHandlerRegistrationRaces.user.staticTarget}}</td>
+                <td>{{site.lateEventHandlerRegistrationRaces.user.visibleStaticTarget}}</td>
+                <td>{{site.lateEventHandlerRegistrationRaces.user.visibleStaticTargetWithLongDelay}}</td>
+                <td>{{site.lateEventHandlerRegistrationRaces.user.visibleStaticTargetWithPreventDefault}}</td>
+                <td><strong>{{site.lateEventHandlerRegistrationRaces.user.visibleStaticTargetWithLongDelayWithPreventDefault}}</strong></td>
+                <td class="bl">{{site.lateEventHandlerRegistrationRaces.system.total}}</td>
+                <td>{{site.lateEventHandlerRegistrationRaces.system.elementTarget}}</td>
+                <td>{{site.lateEventHandlerRegistrationRaces.system.staticElementTarget}}</td>
+                <td><strong>{{site.lateEventHandlerRegistrationRaces.system.staticElementTargetWithLongDelay}}</strong></td>
+                <td class="bl"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Total</th>
+                <th class="bl">{{sites | sumOfValue: ['lateEventHandlerRegistrationRaces', 'user', 'total']}}</th>
+                <th>{{sites | sumOfValue: ['lateEventHandlerRegistrationRaces', 'user', 'staticTarget']}}</th>
+                <th>{{sites | sumOfValue: ['lateEventHandlerRegistrationRaces', 'user', 'visibleStaticTarget']}}</th>
+                <th>{{sites | sumOfValue: ['lateEventHandlerRegistrationRaces', 'user', 'visibleStaticTargetWithLongDelay']}}</th>
+                <th>{{sites | sumOfValue: ['lateEventHandlerRegistrationRaces', 'user', 'visibleStaticTargetWithPreventDefault']}}</th>
+                <th>{{sites | sumOfValue: ['lateEventHandlerRegistrationRaces', 'user', 'visibleStaticTargetWithLongDelayWithPreventDefault']}}</th>
+                <th class="bl">{{sites | sumOfValue: ['lateEventHandlerRegistrationRaces', 'system', 'total']}}</th>
+                <th>{{sites | sumOfValue: ['lateEventHandlerRegistrationRaces', 'system', 'elementTarget']}}</th>
+                <th>{{sites | sumOfValue: ['lateEventHandlerRegistrationRaces', 'system', 'staticElementTarget']}}</th>
+                <th>{{sites | sumOfValue: ['lateEventHandlerRegistrationRaces', 'system', 'staticElementTargetWithLongDelay']}}</th>
+                <th class="bl"></th>
+            </tr>
+        </tfoot>
+    </table>
+</div>

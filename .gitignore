@@ -1,0 +1,9 @@
+paper.synctex.gz
+.DS_Store
+Output/
+paper.pdf
+cache/
+out/
+node_modules/
+*.pyc
+log*.txt

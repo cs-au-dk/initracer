@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+    <title>Example</title>
+</head>
+<body>
+    <h3>Form-Input-Overwritten Bugs</h3>
+    
+    <h4>Harmless races</h4>
+
+    <p>The first text field below loses focus <i>immediately</i>.</p>
+
+    <input type="text" id="my-input-1a">
+    <input type="text" id="my-input-1b">
+
+    <script>
+        var input1b = document.getElementById('my-input-1b');
+        input1b.focus();
+    </script>
+</body>
+</html>

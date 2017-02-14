@@ -1,0 +1,76 @@
+<h3>InitRacer Summary</h3>
+
+<button type="button" class="btn" style="height: 50px; width: 250px" ng-click="$location.path('access-before-definition')">
+    Access-Before-Definition Warnings
+</button>
+<button type="button" class="btn" style="height: 50px; width: 300px" ng-click="$location.path('late-event-handler-registration')">
+    Late-Event-Handler-Registration Warnings
+</button>
+<button type="button" class="btn" style="height: 50px; width: 280px" ng-click="$location.path('form-input-overwritten')">
+    Form-Input-Overwritten Warnings
+</button>
+<button type="button" class="btn" style="height: 50px; width: 250px" ng-click="$location.path('performance')">
+    Performance
+</button>
+
+<div style="margin: 2em 0 0 2em">
+    <h4>Access-Before-Definition Warnings</h4>
+    <table class="table table-condensed table-hover table-striped" style="width: auto">
+        <thead>
+            <tr>
+                <th rowspan="2">Website</th>
+                <th rowspan="2">Status</th>
+                <th colspan="4" style="white-space: nowrap">User event handlers</th>
+                <th colspan="4" style="white-space: nowrap">System event handlers</th>
+                <th rowspan="2" style="width: 100%"></th>
+            </tr>
+            <tr>
+                <th>Executed</th>
+                <th>Failing</th>
+                <th>Validated</th>
+                <th>Validated <span style="white-space: nowrap">initialization errors</span></th>
+                <th>Executed</th>
+                <th>Failing</th>
+                <th>Validated</th>
+                <th>Validated <span style="white-space: nowrap">initialization errors</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="site in sites | orderBy:'name'">
+                <td style="vertical-align: middle; white-space: nowrap">
+                    <strong>
+                        <a href="#/{{site.name}}/">{{site.name}}</a>
+                    </strong>
+                </td>
+                <td class="bl" style="text-align: center">
+                    <span ng-if="excludeHashFromUrl(site.info.urls.adverse) === excludeHashFromUrl(site.info.urls.observation)" style="color: green">OK</span>
+                    <span ng-if="excludeHashFromUrl(site.info.urls.adverse) !== excludeHashFromUrl(site.info.urls.observation)" style="color: red" tooltips tooltip-side="right" tooltip-template="{{site.info.urls.adverse}} (expected: {{site.info.urls.observation}})">Error</span>
+                </td>
+                <td class="bl">{{site.accessBeforeDefinitionRaces.user.executed}}</td>
+                <td>{{site.accessBeforeDefinitionRaces.user.failing}}</td>
+                <td><strong>{{site.accessBeforeDefinitionRaces.user.validated}}</strong></td>
+                <td><strong>{{site.accessBeforeDefinitionRaces.user.initializationErrors}}</strong></td>
+                <td class="bl">{{site.accessBeforeDefinitionRaces.system.executed}}</td>
+                <td>{{site.accessBeforeDefinitionRaces.system.failing}}</td>
+                <td><strong>{{site.accessBeforeDefinitionRaces.system.validated}}</strong></td>
+                <td><strong>{{site.accessBeforeDefinitionRaces.system.initializationErrors}}</strong></td>
+                <td class="bl"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Total</th>
+                <th class="bl"></th>
+                <th class="bl">{{sites | sumOfValue: ['accessBeforeDefinitionRaces', 'user', 'executed']}}</th>
+                <th>{{sites | sumOfValue: ['accessBeforeDefinitionRaces', 'user', 'failing']}}</th>
+                <th>{{sites | sumOfValue: ['accessBeforeDefinitionRaces', 'user', 'validated']}}</th>
+                <th>{{sites | sumOfValue: ['accessBeforeDefinitionRaces', 'user', 'initializationErrors']}}</th>
+                <th class="bl">{{sites | sumOfValue: ['accessBeforeDefinitionRaces', 'system', 'executed']}}</th>
+                <th>{{sites | sumOfValue: ['accessBeforeDefinitionRaces', 'system', 'failing']}}</th>
+                <th>{{sites | sumOfValue: ['accessBeforeDefinitionRaces', 'system', 'validated']}}</th>
+                <th>{{sites | sumOfValue: ['accessBeforeDefinitionRaces', 'system', 'initializationErrors']}}</th>
+                <th class="bl"></th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
