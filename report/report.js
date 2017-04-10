@@ -165,6 +165,12 @@ app.controller('SummaryController', ['$scope', '$rootScope', '$http', '$location
             site.accessBeforeDefinitionRaces.system.failing;
     };
 
+    $scope.siteOnlyHasValidatedABDWarnings = function (site) {
+        return $scope.siteHasNonValidatedABDWarning(site) && 0 ===
+            (site.accessBeforeDefinitionRaces.user.failing - site.accessBeforeDefinitionRaces.user.validated) +
+            (site.accessBeforeDefinitionRaces.system.failing - site.accessBeforeDefinitionRaces.system.validated);
+    };
+
     $scope.siteWithMostABDWarnings = function () {
         var mostSoFar = null;
         $rootScope.sites.forEach(function (site) {
